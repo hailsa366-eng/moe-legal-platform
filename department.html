@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06376d">
+  <title>صفحة الإدارة | منصة الممثلين القانونيين</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="department.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div>
+          <strong>وزارة التعليم</strong>
+          <small>منصة الممثلين القانونيين</small>
+        </div>
+      </div>
+
+      <div class="department-badge">
+        <small>الإدارة التابعة</small>
+        <strong id="sidebarDepartment">—</strong>
+      </div>
+
+      <nav class="side-nav">
+        <a href="department.html" class="nav-item active"><span>⌂</span> الرئيسية</a>
+        <div class="nav-group">
+          <button type="button" class="nav-item nav-button" id="lawsuitsNav"><span>▤</span> الدعاوى القضائية</button>
+          <div class="nav-submenu">
+            <button type="button" class="nav-subitem" id="lawsuitsSubNav">الدعاوى الابتدائية</button>
+            <a class="nav-subitem" href="appeals.html">الدعاوى لدى الاستئناف</a>
+          </div>
+        </div>
+        <a href="#" class="nav-item"><span>◷</span> المواعيد والجلسات</a>
+        <a href="judgments.html" class="nav-item"><span>▧</span> الأحكام القضائية</a>
+      </nav>
+
+      <button class="logout" id="logoutBtn">تسجيل الخروج</button>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">لوحة الإدارة</p>
+          <h1 id="departmentTitle">—</h1>
+          <p class="subtitle">مرحبًا بك في الصفحة المخصصة لإدارتك.</p>
+        </div>
+
+        <div class="profile">
+          <div class="profile-avatar" id="profileAvatar">م</div>
+          <div>
+            <strong id="profileName">—</strong>
+            <small id="profileUsername">—</small>
+          </div>
+        </div>
+      </header>
+
+      <section class="welcome-card">
+        <div>
+          <span class="label">دخول مخصص وآمن</span>
+          <h2>هذه الصفحة مخصصة لمنسوبي <span id="welcomeDepartment">الإدارة</span></h2>
+          <p>
+            يتم تحديد محتوى الصفحة تلقائيًا وفق الإدارة المرتبطة بحساب المستخدم،
+            ولا يحتاج النظام إلى إنشاء صفحة مستقلة لكل إدارة.
+          </p>
+        </div>
+        <div class="shield">✓</div>
+      </section>
+
+      <section class="stats-grid">
+        <article class="stat-card">
+          <span class="stat-icon">▤</span>
+          <div><small>الدعاوى المنظورة</small><strong>0</strong></div>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon">✓</span>
+          <div><small>الدعاوى المنتهية</small><strong>0</strong></div>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon">◷</span>
+          <div><small>الجلسات القادمة</small><strong>0</strong></div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h2>بيانات المستخدم الحالي</h2>
+            <p>البيانات المسجلة في حساب الممثل القانوني.</p>
+          </div>
+        </div>
+
+        <div class="details-grid">
+          <div class="detail"><small>الاسم</small><strong id="detailName">—</strong></div>
+          <div class="detail"><small>اسم المستخدم</small><strong id="detailUsername">—</strong></div>
+          <div class="detail"><small>البريد الإلكتروني</small><strong id="detailEmail">—</strong></div>
+          <div class="detail"><small>الإدارة التابعة</small><strong id="detailDepartment">—</strong></div>
+        </div>
+      </section>
+
+
+      <section class="panel representatives-panel">
+        <div class="panel-header shared-header">
+          <div>
+            <p class="eyebrow">مساحة عمل مشتركة</p>
+            <h2>ممثلو الإدارة التابعة</h2>
+            <p>جميع الممثلين المرتبطين بهذه الإدارة يشاهدون الدعاوى نفسها ويعملون عليها من الصفحة ذاتها.</p>
+          </div>
+          <span class="shared-badge">مشتركة بين ممثلي الإدارة</span>
+        </div>
+        <div class="representatives-grid" id="representativesGrid"></div>
+      </section>
+
+      <section class="panel lawsuits-panel" id="lawsuitsPanel" hidden>
+        <div class="panel-header lawsuits-header">
+          <div>
+            <h2>الدعاوى القضائية</h2>
+            <p>سجل مشترك لجميع ممثلي الإدارة التابعة، وأي إضافة أو تعديل يظهر لهم جميعًا.</p>
+            <div class="cases-search-box">
+              <span class="cases-search-icon" aria-hidden="true">⌕</span>
+              <input
+                type="search"
+                id="casesSearchInput"
+                placeholder="بحث برقم الدعوى أو اسم المدعي"
+                aria-label="بحث برقم الدعوى أو اسم المدعي"
+                autocomplete="off"
+              >
+              <button type="button" id="clearCasesSearch" class="clear-search-btn" hidden>مسح</button>
+            </div>
+            <small class="search-result-text" id="casesSearchResult"></small>
+          </div>
+          <button class="primary-btn" id="openCaseModal" type="button"><span>＋</span> إضافة دعوى جديدة</button>
+        </div>
+
+        <div class="table-wrap">
+          <table class="cases-table">
+            <thead>
+              <tr>
+                <th>رقم تسلسلي</th>
+                <th>اسم المدعي</th>
+                <th>رقم الدعوى الإدارية</th>
+                <th>صفة المدعي</th>
+                <th>طلب المدعي</th>
+                <th>نوع الدعوى</th>
+                <th>مبلغ المطالبة</th>
+                <th>اسم المحكمة</th>
+                <th>حالة الدعوى</th>
+                <th>الحكم الإداري</th>
+                <th>اسم الممثل</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="casesTableBody"></tbody>
+          </table>
+          <div class="empty-state" id="casesEmptyState" hidden>
+            <div class="empty-icon">▤</div>
+            <h3>لا توجد دعاوى مسجلة</h3>
+            <p>اضغط على إضافة دعوى جديدة لبدء التسجيل.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+
+  <div class="modal-backdrop" id="caseModal" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="caseModalTitle">
+      <header class="modal-header">
+        <div>
+          <p class="eyebrow">إدارة الدعاوى</p>
+          <h2 id="caseModalTitle">إضافة دعوى جديدة</h2>
+        </div>
+        <button class="icon-btn close-case-modal" type="button" aria-label="إغلاق">×</button>
+      </header>
+
+      <form id="caseForm" novalidate>
+        <input type="hidden" id="editingCaseId">
+        <div class="form-grid">
+          <div class="field">
+            <label for="plaintiffName">اسم المدعي <span>*</span></label>
+            <input id="plaintiffName" type="text" placeholder="أدخل اسم المدعي" required>
+            <small class="error" data-case-error="plaintiffName"></small>
+          </div>
+
+          <div class="field">
+            <label for="caseNumber">رقم الدعوى <span>*</span></label>
+            <input id="caseNumber" type="text" placeholder="أدخل رقم الدعوى" required>
+            <small class="error" data-case-error="caseNumber"></small>
+          </div>
+
+          <div class="field">
+            <label>صفة المدعي <span>*</span></label>
+            <div class="managed-select">
+              <select id="plaintiffRole"></select>
+              <button type="button" class="list-btn add-list-item" data-list="plaintiffRoles" title="إضافة">＋</button>
+              <button type="button" class="list-btn delete-list-item" data-list="plaintiffRoles" title="حذف">🗑</button>
+            </div>
+            <small class="error" data-case-error="plaintiffRole"></small>
+          </div>
+
+          <div class="field">
+            <label>طلب المدعي <span>*</span></label>
+            <div class="managed-select">
+              <select id="claimType"></select>
+              <button type="button" class="list-btn add-list-item" data-list="claimTypes" title="إضافة">＋</button>
+              <button type="button" class="list-btn delete-list-item" data-list="claimTypes" title="حذف">🗑</button>
+            </div>
+            <small class="error" data-case-error="claimType"></small>
+          </div>
+
+          <div class="field">
+            <label>نوع الدعوى <span>*</span></label>
+            <div class="managed-select">
+              <select id="caseType"></select>
+              <button type="button" class="list-btn add-list-item" data-list="caseTypes" title="إضافة نوع دعوى">＋</button>
+              <button type="button" class="list-btn delete-list-item" data-list="caseTypes" title="حذف نوع الدعوى">🗑</button>
+            </div>
+            <small class="error" data-case-error="caseType"></small>
+          </div>
+
+          <div class="field">
+            <label for="claimAmount">مبلغ المطالبة</label>
+            <div class="currency-input">
+              <input id="claimAmount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00">
+              <span class="currency-suffix">ر.س</span>
+            </div>
+            <small class="field-help">القيمة بالريال السعودي</small>
+            <small class="error" data-case-error="claimAmount"></small>
+          </div>
+
+          <div class="field full">
+            <label>اسم المحكمة <span>*</span></label>
+            <div class="managed-select">
+              <select id="courtName"></select>
+              <button type="button" class="list-btn add-list-item" data-list="courts" title="إضافة">＋</button>
+              <button type="button" class="list-btn delete-list-item" data-list="courts" title="حذف">🗑</button>
+            </div>
+            <small class="error" data-case-error="courtName"></small>
+          </div>
+
+          <div class="field full">
+            <label>اسم الممثل <span>*</span></label>
+            <div class="managed-select">
+              <select id="caseRepresentative"></select>
+              <button type="button" class="list-btn add-list-item" data-list="caseRepresentatives" title="إضافة ممثل">＋</button>
+              <button type="button" class="list-btn delete-list-item" data-list="caseRepresentatives" title="حذف الممثل">🗑</button>
+            </div>
+            <small class="error" data-case-error="caseRepresentative"></small>
+          </div>
+
+        </div>
+
+        <div class="modal-actions">
+          <button class="secondary-btn close-case-modal" type="button">إلغاء</button>
+          <button class="primary-btn" type="submit"><span>＋</span> حفظ الدعوى</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+
+  <div class="modal-backdrop" id="appealModal" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="appealModalTitle">
+      <header class="modal-header">
+        <div>
+          <p class="eyebrow">بيانات الدعوى لدى الاستئناف</p>
+          <h2 id="appealModalTitle">ترحيل الدعوى إلى الاستئناف</h2>
+        </div>
+        <button class="icon-btn close-appeal-modal" type="button" aria-label="إغلاق">×</button>
+      </header>
+
+      <div class="appeal-case-summary" id="appealCaseSummary"></div>
+
+      <form id="appealForm" novalidate>
+        <input type="hidden" id="appealSourceCaseId">
+        <div class="form-grid appeal-form-grid">
+          <div class="field">
+            <label for="appealCaseNumber">رقم الدعوى لدى الاستئناف <span>*</span></label>
+            <input id="appealCaseNumber" type="text" placeholder="أدخل رقم دعوى الاستئناف" required>
+            <small class="error" data-appeal-error="appealCaseNumber"></small>
+          </div>
+
+          <div class="field">
+            <label>نوع المستأنف <span>*</span></label>
+            <div class="managed-select">
+              <select id="appellantType"></select>
+              <button type="button" class="list-btn add-list-item" data-list="appellantTypes" title="إضافة نوع مستأنف">＋</button>
+              <button type="button" class="list-btn delete-list-item" data-list="appellantTypes" title="حذف نوع المستأنف">🗑</button>
+            </div>
+            <small class="error" data-appeal-error="appellantType"></small>
+          </div>
+
+          <div class="field">
+            <label for="appealSessionDate">تاريخ الجلسة <span>*</span></label>
+            <input id="appealSessionDate" type="date" required>
+            <small class="error" data-appeal-error="appealSessionDate"></small>
+          </div>
+
+          <div class="field">
+            <label for="appealSessionTime">التوقيت <span>*</span></label>
+            <input id="appealSessionTime" type="time" required>
+            <small class="error" data-appeal-error="appealSessionTime"></small>
+          </div>
+
+          <div class="field full">
+            <label>اسم المحكمة <span>*</span></label>
+            <div class="managed-select">
+              <select id="appealCourtName"></select>
+              <button type="button" class="list-btn add-list-item" data-list="appealCourts" title="إضافة محكمة">＋</button>
+              <button type="button" class="list-btn delete-list-item" data-list="appealCourts" title="حذف المحكمة">🗑</button>
+            </div>
+            <small class="error" data-appeal-error="appealCourtName"></small>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="secondary-btn close-appeal-modal" type="button">إلغاء</button>
+          <button class="primary-btn" type="submit"><span>⇧</span> حفظ وترحيل</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="listModal" hidden>
+    <section class="modal small-modal" role="dialog" aria-modal="true" aria-labelledby="listModalTitle">
+      <header class="modal-header">
+        <div>
+          <p class="eyebrow">إدارة القوائم</p>
+          <h2 id="listModalTitle">إضافة عنصر جديد</h2>
+        </div>
+        <button class="icon-btn close-list-modal" type="button">×</button>
+      </header>
+      <form id="listForm">
+        <div class="field">
+          <label for="newListItem">اسم العنصر <span>*</span></label>
+          <input id="newListItem" type="text" required>
+          <small class="error" id="listItemError"></small>
+        </div>
+        <div class="modal-actions">
+          <button class="secondary-btn close-list-modal" type="button">إلغاء</button>
+          <button class="primary-btn" type="submit"><span>＋</span> إضافة</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="finishCaseModal" hidden>
+    <section class="modal finish-modal" role="dialog" aria-modal="true" aria-labelledby="finishCaseTitle">
+      <header class="modal-header">
+        <div>
+          <p class="warning-eyebrow">تنبيه</p>
+          <h2 id="finishCaseTitle">هل تم الفصل في الدعوى والانتهاء منها؟</h2>
+        </div>
+        <button class="icon-btn close-finish-modal" type="button">×</button>
+      </header>
+
+      <p class="warning-text">عند التأكيد ستتحول حالة الدعوى من منظورة إلى منتهية، وسيتم إظهار الحكم في الجدول.</p>
+
+      <form id="finishCaseForm">
+        <input type="hidden" id="finishingCaseId">
+        <div class="form-grid">
+          <div class="field" style="grid-column: 1 / -1;">
+            <label>الحكم <span>*</span></label>
+            <div class="managed-select">
+              <select id="judgmentResult"></select>
+              <button type="button" class="list-btn add-list-item" data-list="judgmentResults" title="إضافة">＋</button>
+              <button type="button" class="list-btn delete-list-item" data-list="judgmentResults" title="حذف">🗑</button>
+            </div>
+            <small class="error" data-finish-error="judgmentResult"></small>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="secondary-btn close-finish-modal" type="button">إلغاء</button>
+          <button class="primary-btn" type="submit"><span>✓</span> تأكيد وإنهاء الدعوى</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast" id="departmentToast"></div>
+
+  <script src="shared.js"></script>
+  <script src="department.js"></script>
+</body>
+</html>

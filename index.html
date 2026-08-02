@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06376d">
+  <title>تسجيل الدخول | منصة الممثلين القانونيين</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="login-shell">
+    <section class="login-panel" aria-labelledby="login-title">
+      <div class="login-card">
+        <header class="login-header">
+          <span class="round-icon" aria-hidden="true">←</span>
+          <div>
+            <p class="eyebrow">منصة الممثلين القانونيين</p>
+            <h1 id="login-title">تسجيل الدخول</h1>
+          </div>
+        </header>
+
+        <p class="intro">
+          الممثل القانوني، يمكنك تسجيل الدخول باستخدام رقم الهوية وكلمة المرور
+          للاستفادة من الخدمات المقدمة.
+        </p>
+
+        <form id="loginForm" novalidate>
+          <div class="field">
+            <label for="email">رقم الهوية <span>*</span></label>
+            <div class="input-wrap">
+              <input id="email" name="email" type="text"
+                     placeholder="رقم الهوية"
+                     autocomplete="username" required>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 5h16v14H4zM4 7l8 6 8-6"/>
+              </svg>
+            </div>
+            <small class="error" id="emailError"></small>
+          </div>
+
+          <div class="field">
+            <label for="password">كلمة المرور <span>*</span></label>
+            <div class="input-wrap">
+              <input id="password" name="password" type="password"
+                     placeholder="كلمة المرور"
+                     autocomplete="current-password" required minlength="6">
+              <button class="toggle-password" type="button" aria-label="إظهار كلمة المرور">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/>
+                  <circle cx="12" cy="12" r="2.5"/>
+                </svg>
+              </button>
+            </div>
+            <small class="error" id="passwordError"></small>
+          </div>
+
+          <button class="submit-btn" type="submit">تسجيل الدخول</button>
+
+          <div class="status" id="statusMessage" role="status" aria-live="polite"></div>
+        </form>
+
+        <aside class="security-note">
+          <span class="shield" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/>
+              <path d="M9.5 12l1.7 1.7L15 10"/>
+            </svg>
+          </span>
+          <div>
+            <strong>منصة آمنة ومعتمدة</strong>
+            <p>جميع البيانات محمية وفق أعلى معايير الأمن السيبراني ومتوافقة مع سياسات وزارة التعليم.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="visual-panel" aria-label="الهوية البصرية لوزارة التعليم">
+      <img src="assets/left-panel.png" alt="منصة الممثلين القانونيين التابعة لوزارة التعليم">
+    </section>
+  </main>
+
+
+  <div class="password-change-backdrop" id="passwordChangeModal" hidden>
+    <section class="password-change-modal" role="dialog" aria-modal="true" aria-labelledby="passwordChangeTitle">
+      <div class="password-change-header">
+        <div>
+          <p class="eyebrow">إجراء أمني إلزامي لمرة واحدة</p>
+          <h2 id="passwordChangeTitle">تعديل كلمة المرور</h2>
+        </div>
+      </div>
+
+      <p class="password-change-note">
+        هذه أول مرة تسجل فيها الدخول. يلزم تغيير كلمة المرور المؤقتة قبل الدخول إلى المنصة.
+      </p>
+
+      <form id="passwordChangeForm" novalidate>
+        <div class="field">
+          <label for="currentPassword">كلمة المرور السابقة <span>*</span></label>
+          <div class="input-wrap">
+            <input id="currentPassword" type="password" autocomplete="current-password" required>
+          </div>
+          <small class="error" id="currentPasswordError"></small>
+        </div>
+
+        <div class="field">
+          <label for="newPassword">كلمة المرور الجديدة <span>*</span></label>
+          <div class="input-wrap">
+            <input id="newPassword" type="password" autocomplete="new-password" required minlength="6">
+          </div>
+          <small class="error" id="newPasswordError"></small>
+        </div>
+
+        <div class="field">
+          <label for="confirmNewPassword">تأكيد كلمة المرور الجديدة <span>*</span></label>
+          <div class="input-wrap">
+            <input id="confirmNewPassword" type="password" autocomplete="new-password" required minlength="6">
+          </div>
+          <small class="error" id="confirmNewPasswordError"></small>
+        </div>
+
+        <button class="submit-btn" type="submit">حفظ كلمة المرور والدخول</button>
+        <div class="status" id="passwordChangeStatus" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </div>
+
+  <script src="shared.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

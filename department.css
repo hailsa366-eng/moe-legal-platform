@@ -1,0 +1,443 @@
+*{box-sizing:border-box}
+:root{--navy:#06366d;--navy-dark:#052a55;--teal:#08b5ad;--teal-dark:#078f89;--surface:#fff;--page:#f4f7f9;--text:#102a4c;--muted:#667085;--line:#e1e7ec}
+html,body{margin:0;min-height:100%}
+body{font-family:"Tajawal",Arial,sans-serif;background:var(--page);color:var(--text)}
+button{font:inherit;cursor:pointer}
+.app-shell{min-height:100vh;display:grid;grid-template-columns:280px 1fr}
+.sidebar{background:linear-gradient(180deg,var(--navy-dark),var(--navy));color:#fff;padding:28px 20px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.brand{display:flex;align-items:center;gap:14px;padding:0 8px 24px;border-bottom:1px solid rgba(255,255,255,.15)}
+.brand strong,.brand small{display:block}.brand small{color:#bfddd9}
+.brand-mark{width:48px;display:grid;grid-template-columns:repeat(5,7px);gap:3px;direction:ltr}
+.brand-mark span{width:7px;height:7px;background:var(--teal);border-radius:50%}
+.department-badge{margin:22px 0;padding:15px;border-radius:12px;background:rgba(8,181,173,.15);border:1px solid rgba(8,181,173,.28)}
+.department-badge small,.department-badge strong{display:block}.department-badge small{color:#cce9e6;margin-bottom:5px}.department-badge strong{line-height:1.6}
+.side-nav{display:grid;gap:9px}
+.nav-item{text-decoration:none;color:#d8e5ee;padding:13px 14px;border-radius:10px;display:flex;align-items:center;gap:12px}
+.nav-item:hover,.nav-item.active{background:rgba(8,181,173,.18);color:#fff}.nav-item.active{border-right:3px solid var(--teal)}
+.logout{margin-top:auto;border:0;color:#fff;background:rgba(255,255,255,.09);padding:13px;border-radius:10px}
+.main-content{padding:34px clamp(24px,4vw,58px)}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:25px;margin-bottom:26px}
+.eyebrow{margin:0 0 4px;color:var(--teal-dark);font-size:14px;font-weight:800}
+h1,h2,p{margin-top:0}h1{font-size:34px;margin-bottom:7px}.subtitle{color:var(--muted)}
+.profile{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:11px}
+.profile-avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#e7f8f6;color:var(--teal-dark);font-weight:800}
+.profile strong,.profile small{display:block}.profile small{color:var(--muted)}
+.welcome-card{background:linear-gradient(115deg,var(--navy),#07528c);color:#fff;border-radius:19px;padding:30px;display:flex;align-items:center;justify-content:space-between;gap:25px;margin-bottom:22px;box-shadow:0 15px 35px rgba(6,54,109,.17)}
+.welcome-card h2{font-size:26px;margin:10px 0}.welcome-card p{margin:0;color:#d7e7f2;line-height:1.8;max-width:760px}
+.label{display:inline-block;padding:6px 11px;border-radius:999px;background:rgba(8,181,173,.2);color:#bff4ef;font-weight:700}
+.shield{width:82px;height:82px;border-radius:50%;display:grid;place-items:center;background:rgba(8,181,173,.19);border:2px solid rgba(8,181,173,.45);font-size:40px;flex:0 0 auto}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:22px}
+.stat-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;align-items:center;gap:15px}
+.stat-icon{width:48px;height:48px;border-radius:12px;background:#e7f8f6;color:var(--teal-dark);display:grid;place-items:center;font-size:24px}
+.stat-card small,.stat-card strong{display:block}.stat-card small{color:var(--muted);margin-bottom:5px}.stat-card strong{font-size:26px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.panel-header{padding:24px 26px;border-bottom:1px solid var(--line)}.panel-header h2{margin-bottom:5px}.panel-header p{color:var(--muted);margin-bottom:0}
+.details-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
+.detail{padding:22px 26px;border-bottom:1px solid var(--line)}.detail:nth-child(odd){border-left:1px solid var(--line)}
+.detail small,.detail strong{display:block}.detail small{color:var(--muted);margin-bottom:7px}.detail strong{line-height:1.6}
+@media(max-width:900px){.app-shell{grid-template-columns:1fr}.sidebar{height:auto;position:relative}.side-nav{grid-template-columns:repeat(4,1fr)}.nav-item{justify-content:center}.nav-item{font-size:0}.nav-item span{font-size:20px}.logout{margin-top:18px}.main-content{padding:24px}}
+@media(max-width:680px){.topbar,.welcome-card{align-items:flex-start;flex-direction:column}.profile{width:100%}.stats-grid,.details-grid{grid-template-columns:1fr}.detail:nth-child(odd){border-left:0}}
+
+.nav-button{width:100%;border:0;background:transparent;font-family:inherit;text-align:right}
+.primary-btn,.secondary-btn,.danger-btn{
+  min-height:45px;border:0;border-radius:10px;padding:0 18px;font-weight:800;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px
+}
+.primary-btn{background:linear-gradient(90deg,var(--teal),var(--teal-dark));color:#fff}
+.secondary-btn{background:#f1f4f6;color:#344054}
+.danger-btn{background:#d92d20;color:#fff}
+.lawsuits-panel{margin-top:22px}
+.lawsuits-header{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.table-wrap{overflow-x:auto}
+.cases-table{width:100%;border-collapse:collapse;min-width:1250px}
+.cases-table th,.cases-table td{padding:14px 15px;border-bottom:1px solid var(--line);text-align:right;vertical-align:middle}
+.cases-table th{background:#f8fafb;color:#475467;white-space:nowrap;font-size:14px}
+.cases-table tbody tr:hover{background:#fbfefe}
+.status-btn{border:0;border-radius:999px;padding:7px 12px;font-weight:800}
+.status-pending{background:#fff4d6;color:#9a6700}
+.status-finished{background:#e8f8ef;color:#067647;cursor:default}
+.case-actions{display:flex;gap:7px}
+.case-icon-btn{width:37px;height:37px;border:0;border-radius:9px;display:grid;place-items:center}
+.case-edit{background:#eaf8f6;color:#087d77}
+.case-delete{background:#fff0ef;color:#d92d20}
+.empty-state{text-align:center;padding:50px 20px}
+.empty-icon{width:62px;height:62px;border-radius:50%;background:#e7f8f6;color:var(--teal-dark);display:grid;place-items:center;margin:0 auto 15px;font-size:28px}
+.empty-state p{color:var(--muted)}
+.modal-backdrop{position:fixed;inset:0;background:rgba(4,26,54,.56);display:grid;place-items:center;padding:20px;z-index:1000;backdrop-filter:blur(3px)}
+.modal-backdrop[hidden]{display:none}
+.modal{width:min(760px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:18px;padding:26px;box-shadow:0 24px 70px rgba(4,26,54,.25)}
+.small-modal{width:min(500px,100%)}
+.finish-modal{width:min(720px,100%);border-top:5px solid #f79009}
+.modal-header{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:22px}
+.icon-btn{border:0;background:#f1f4f6;width:38px;height:38px;border-radius:9px;font-size:25px;color:#344054}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field.full{grid-column:1/-1}
+.field label{display:block;font-weight:700;margin-bottom:8px}
+.field label span{color:#d92d20}
+.field input,.field select{width:100%;height:49px;border:1px solid #d6dde5;border-radius:9px;padding:0 13px;background:#fbfcfd;outline:none}
+.field input:focus,.field select:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(8,181,173,.11)}
+.managed-select{display:grid;grid-template-columns:1fr 48px 48px;gap:8px}
+.list-btn{height:49px;border:0;border-radius:9px;font-size:20px;font-weight:800}
+.add-list-item{background:#e7f8f6;color:var(--teal-dark)}
+.delete-list-item{background:#fff0ef;color:#d92d20}
+.error{display:block;min-height:18px;color:#d92d20;font-size:13px;margin-top:5px}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:25px}
+.warning-eyebrow{color:#b54708;font-weight:800;margin-bottom:5px}
+.warning-text{background:#fff7e8;border:1px solid #fedf89;color:#7a2e0e;border-radius:10px;padding:13px 15px;line-height:1.7}
+.toast{position:fixed;left:25px;bottom:25px;background:#067647;color:#fff;padding:13px 18px;border-radius:10px;opacity:0;transform:translateY(20px);pointer-events:none;transition:.2s;z-index:2000}
+.toast.show{opacity:1;transform:none}
+@media(max-width:720px){
+  .lawsuits-header{align-items:flex-start;flex-direction:column}
+  .form-grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+}
+
+.representatives-panel{margin-top:22px}
+.shared-header{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.shared-badge{display:inline-flex;align-items:center;justify-content:center;padding:8px 13px;border-radius:999px;background:#e7f8f6;color:var(--teal-dark);font-weight:800;white-space:nowrap}
+.representatives-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:22px 26px}
+.representative-card{border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px;background:#fbfdfd}
+.representative-avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#e7f8f6;color:var(--teal-dark);font-weight:800;flex:0 0 auto}
+.representative-card strong,.representative-card small{display:block}
+.representative-card small{color:var(--muted);margin-top:4px}
+.current-representative{border-color:rgba(8,181,173,.55);box-shadow:0 0 0 3px rgba(8,181,173,.08)}
+.current-label{display:inline-block;margin-top:7px;color:#067647;font-size:12px;font-weight:800}
+@media(max-width:900px){.representatives-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.shared-header{align-items:flex-start;flex-direction:column}.representatives-grid{grid-template-columns:1fr}}
+
+.field-help{display:block;color:var(--muted);font-size:12px;margin-top:6px}
+
+.nav-group{display:block}
+.nav-submenu{margin:-3px 25px 8px 0;padding-right:18px;border-right:2px solid rgba(255,255,255,.16);display:grid;gap:4px}
+.nav-subitem{display:block;border:0;background:transparent;color:rgba(255,255,255,.72);text-decoration:none;text-align:right;font-family:inherit;padding:8px 10px;border-radius:8px;font-size:13px}
+.nav-subitem:hover{background:rgba(255,255,255,.08);color:#fff}
+.action-search-btn{width:39px;height:39px;border:0;border-radius:9px;background:#e7f8f6;color:var(--teal-dark);display:grid;place-items:center;font-size:19px;cursor:pointer}
+.action-search-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(8,181,173,.18)}
+.appeal-case-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;background:#f8fafb;border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:20px}
+.appeal-case-summary div{min-width:0}
+.appeal-case-summary small,.appeal-case-summary strong{display:block}
+.appeal-case-summary small{color:var(--muted);margin-bottom:4px}
+@media(max-width:700px){.appeal-case-summary{grid-template-columns:1fr}}
+
+.cases-search-box{
+  margin-top:15px;
+  width:min(560px,100%);
+  min-height:48px;
+  display:grid;
+  grid-template-columns:42px 1fr auto;
+  align-items:center;
+  border:1px solid #d6dde5;
+  border-radius:11px;
+  background:#fbfcfd;
+  overflow:hidden;
+  transition:.2s;
+}
+.cases-search-box:focus-within{
+  border-color:var(--teal);
+  box-shadow:0 0 0 3px rgba(8,181,173,.11);
+  background:#fff;
+}
+.cases-search-icon{
+  display:grid;
+  place-items:center;
+  color:var(--teal-dark);
+  font-size:21px;
+}
+.cases-search-box input{
+  width:100%;
+  height:46px;
+  border:0;
+  outline:0;
+  background:transparent;
+  font-family:inherit;
+  font-size:14px;
+  color:#1d2939;
+}
+.cases-search-box input::-webkit-search-cancel-button{display:none}
+.clear-search-btn{
+  height:34px;
+  margin-left:7px;
+  border:0;
+  border-radius:8px;
+  padding:0 12px;
+  background:#eef2f5;
+  color:#475467;
+  font-family:inherit;
+  font-weight:700;
+  cursor:pointer;
+}
+.search-result-text{
+  display:block;
+  min-height:20px;
+  margin-top:7px;
+  color:var(--muted);
+  font-size:13px;
+}
+.search-no-results td{
+  text-align:center;
+  padding:35px 15px;
+  color:var(--muted);
+}
+
+/* ضمان ظهور نافذة إضافة عناصر الحكم ومنطوق الحكم فوق نافذة إنهاء الدعوى */
+#finishCaseModal{z-index:1100}
+#listModal{z-index:1300}
+#caseModal,#appealModal{z-index:1200}
+
+/* تنسيق جدول الدعاوى الابتدائية ليتوافق بصريًا مع جدول الاستئناف */
+.lawsuits-panel .table-wrap{
+  width:100%;
+  overflow-x:auto;
+  border-top:1px solid var(--line);
+}
+.lawsuits-panel .cases-table{
+  width:100%;
+  min-width:1180px;
+  table-layout:auto;
+  border-collapse:collapse;
+  font-size:12px;
+  line-height:1.45;
+}
+.lawsuits-panel .cases-table th,
+.lawsuits-panel .cases-table td{
+  padding:10px 8px;
+  text-align:center;
+  vertical-align:middle;
+  border-bottom:1px solid var(--line);
+  font-size:12px;
+  font-weight:500;
+  white-space:nowrap;
+}
+.lawsuits-panel .cases-table th{
+  background:#f8fafb;
+  color:#344054;
+  font-size:11.5px;
+  font-weight:800;
+  letter-spacing:0;
+}
+.lawsuits-panel .cases-table td:nth-child(2),
+.lawsuits-panel .cases-table td:nth-child(4),
+.lawsuits-panel .cases-table td:nth-child(5),
+.lawsuits-panel .cases-table td:nth-child(6),
+.lawsuits-panel .cases-table td:nth-child(10){
+  white-space:normal;
+  min-width:105px;
+  max-width:145px;
+  overflow-wrap:anywhere;
+}
+.lawsuits-panel .cases-table td:nth-child(1){width:58px;min-width:58px}
+.lawsuits-panel .cases-table td:nth-child(3){min-width:86px}
+.lawsuits-panel .cases-table td:nth-child(7){min-width:82px}
+.lawsuits-panel .cases-table td:nth-child(8),
+.lawsuits-panel .cases-table td:nth-child(9){min-width:92px}
+.lawsuits-panel .cases-table td:nth-child(11){width:72px;min-width:72px}
+.lawsuits-panel .status-btn{
+  padding:6px 10px;
+  font-size:11.5px;
+  line-height:1.2;
+  white-space:nowrap;
+}
+.lawsuits-panel .action-search-btn{
+  width:34px;
+  height:34px;
+  margin:auto;
+  font-size:16px;
+  border-radius:8px;
+}
+.lawsuits-panel .cases-table tbody tr:hover{
+  background:#f9fcfc;
+}
+@media(max-width:900px){
+  .lawsuits-panel .cases-table{
+    min-width:1100px;
+  }
+}
+
+
+/* تنسيق جدول الاستئناف بنفس حجم وخط جدول الدعاوى في department.html */
+.appeals-panel .cases-table,
+main .panel .cases-table{
+  table-layout:fixed;
+  min-width:1120px;
+}
+main .panel .cases-table th,
+main .panel .cases-table td{
+  padding:10px 9px;
+  text-align:center;
+  vertical-align:middle;
+  font-size:13px;
+  line-height:1.55;
+  font-weight:500;
+}
+main .panel .cases-table th{
+  font-size:12px;
+  font-weight:800;
+  white-space:nowrap;
+}
+main .panel .cases-table td{
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+main .panel .cases-table .status-btn{
+  padding:6px 10px;
+  font-size:12px;
+}
+
+/* تنسيق نافذة ترحيل الدعوى إلى الاستئناف */
+#appealModal .modal{
+  width:min(700px,100%);
+  padding:22px;
+}
+#appealModal .modal-header{margin-bottom:16px}
+#appealModal .modal-header h2{font-size:24px}
+#appealModal .eyebrow{font-size:12px}
+#appealModal .appeal-case-summary{font-size:13px}
+#appealModal .appeal-case-summary strong{font-size:14px}
+#appealModal .field label{font-size:14px;margin-bottom:6px}
+#appealModal .field input,
+#appealModal .field select{height:44px;font-size:13px}
+#appealModal .managed-select{grid-template-columns:1fr 44px 44px}
+#appealModal .list-btn{height:44px;font-size:18px}
+#appealModal .error{font-size:12px}
+#appealModal .modal-actions{margin-top:20px}
+#appealModal .primary-btn,
+#appealModal .secondary-btn{min-height:41px;font-size:13px}
+
+/* إنهاء الاستئناف والأحكام والمرفقات */
+#finishAppealModal{z-index:1250}
+#finishAppealModal .modal{width:min(760px,100%)}
+#finishAppealModal input[type=file]{height:auto;padding:11px;background:#fff}
+.file-note{display:block;margin-top:6px;color:var(--muted);font-size:11px}
+.status-btn{cursor:pointer;font-family:inherit}
+.status-done{background:#e7f8f2;color:#067a62}
+.judgments-table{min-width:1350px!important}
+.attachment-link{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border-radius:8px;background:#eaf7f5;color:#087f75;text-decoration:none;font-weight:700;font-size:11px}
+.attachment-link:hover{background:#d7f1ed}
+.muted-cell{color:#98a2b3}
+.error-toast{background:#b42318!important}
+
+
+/* سجل الأحكام والمرفقات - البيانات الكاملة */
+.judgments-table{
+  min-width:1760px!important;
+}
+.judgments-table th,
+.judgments-table td{
+  padding:10px 8px;
+  text-align:center;
+  vertical-align:middle;
+  font-size:11.5px;
+  white-space:normal;
+  min-width:125px;
+}
+.judgments-table th{
+  font-size:11px;
+  font-weight:800;
+}
+.judgments-table th:first-child,
+.judgments-table td:first-child{
+  min-width:65px;
+  width:65px;
+}
+.judgments-table th:last-child,
+.judgments-table td:last-child{
+  min-width:145px;
+}
+.show-attachments-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  border:1px solid #a8e2dc;
+  background:#e9f8f6;
+  color:#087f75;
+  border-radius:9px;
+  padding:7px 10px;
+  font-family:inherit;
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.show-attachments-button:hover{
+  background:#d8f2ee;
+  border-color:#65cfc4;
+}
+.attachments-modal{
+  width:min(700px,100%);
+}
+.attachments-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.attachment-card{
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:18px;
+  background:#fbfdfd;
+  min-height:130px;
+}
+.attachment-card h3{
+  margin:0 0 14px;
+  color:#12325a;
+  font-size:16px;
+}
+.attachment-download-button{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  width:100%;
+  padding:11px 12px;
+  border-radius:10px;
+  background:#e5f7f4;
+  color:#087f75;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:800;
+  overflow-wrap:anywhere;
+}
+.attachment-download-button:hover{
+  background:#d3f0ec;
+}
+.attachment-empty{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  border:1px dashed #cbd5df;
+  border-radius:10px;
+  color:#667085;
+  font-size:12px;
+  background:#fff;
+}
+@media(max-width:700px){
+  .attachments-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+.currency-input{
+  position:relative;
+}
+.currency-input input{
+  padding-left:58px!important;
+}
+.currency-suffix{
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--teal-dark);
+  font-weight:800;
+  font-size:13px;
+  pointer-events:none;
+}
+.field-help{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:6px;
+}

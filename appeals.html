@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06376d">
+  <title>الدعاوى لدى الاستئناف | منصة الممثلين القانونيين</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="department.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div><strong>وزارة التعليم</strong><small>منصة الممثلين القانونيين</small></div>
+      </div>
+      <div class="department-badge"><small>الإدارة التابعة</small><strong id="sidebarDepartment">—</strong></div>
+      <nav class="side-nav">
+        <a href="department.html" class="nav-item"><span>⌂</span> الرئيسية</a>
+        <div class="nav-group">
+          <a href="department.html#lawsuitsPanel" class="nav-item"><span>▤</span> الدعاوى القضائية</a>
+          <div class="nav-submenu">
+            <a class="nav-subitem" href="department.html#lawsuitsPanel">الدعاوى الابتدائية</a>
+            <a class="nav-subitem active" href="appeals.html">الدعاوى لدى الاستئناف</a>
+          </div>
+        </div>
+        <a href="#" class="nav-item"><span>◷</span> المواعيد والجلسات</a>
+        <a href="judgments.html" class="nav-item"><span>▧</span> الأحكام القضائية</a>
+      </nav>
+      <button class="logout" id="logoutBtn">تسجيل الخروج</button>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">تصنيف الدعاوى القضائية</p>
+          <h1>الدعاوى لدى الاستئناف</h1>
+          <p class="subtitle">الدعاوى التي تم حفظها وترحيلها من سجل الدعاوى القضائية.</p>
+        </div>
+        <div class="profile">
+          <div class="profile-avatar" id="profileAvatar">م</div>
+          <div><strong id="profileName">—</strong><small id="profileUsername">—</small></div>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="panel-header lawsuits-header">
+          <div>
+            <h2>سجل دعاوى الاستئناف</h2>
+            <p>تظل الدعوى الأصلية محفوظة في الدعاوى القضائية، وتظهر هنا نسخة مرتبطة بها.</p>
+          </div>
+          <span class="shared-badge">مشتركة بين ممثلي الإدارة</span>
+        </div>
+        <div class="table-wrap">
+          <table class="cases-table">
+            <thead>
+              <tr>
+                <th>رقم تسلسلي</th>
+                <th>اسم المدعي</th>
+                <th>رقم دعوى الاستئناف</th>
+                <th>نوع المستأنف</th>
+                <th>اسم المحكمة</th>
+                <th>تاريخ الجلسة</th>
+                <th>التوقيت</th>
+                <th>الحالة</th>
+                <th>حكم الاستئناف</th>
+                <th>اسم الممثل</th>
+              </tr>
+            </thead>
+            <tbody id="appealsTableBody"></tbody>
+          </table>
+          <div class="empty-state" id="appealsEmptyState" hidden>
+            <div class="empty-icon">⇧</div>
+            <h3>لا توجد دعاوى لدى الاستئناف</h3>
+            <p>يتم ترحيل الدعوى من أيقونة الإجراءات في صفحة الدعاوى القضائية.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="finishAppealModal" hidden>
+    <section class="modal finish-modal" role="dialog" aria-modal="true" aria-labelledby="finishAppealTitle">
+      <header class="modal-header">
+        <div>
+          <p class="warning-eyebrow">إنهاء دعوى الاستئناف</p>
+          <h2 id="finishAppealTitle">هل تم الفصل في دعوى الاستئناف والانتهاء منها؟</h2>
+        </div>
+        <button class="icon-btn close-finish-appeal" type="button">×</button>
+      </header>
+      <p class="warning-text">اختر حكم الاستئناف، ثم أرفق الأحكام عند توفرها، واضغط إنهاء وترحيل لحفظ جميع بيانات الدعوى ضمن تصنيف الأحكام القضائية.</p>
+      <form id="finishAppealForm">
+        <input type="hidden" id="finishingAppealId">
+        <div class="form-grid">
+          <div class="field" style="grid-column:1/-1">
+            <label>حكم الاستئناف <span>*</span></label>
+            <div class="managed-select">
+              <select id="appealJudgment"></select>
+              <button type="button" class="list-btn" id="addAppealJudgment" title="إضافة حكم">＋</button>
+              <button type="button" class="list-btn" id="deleteAppealJudgment" title="حذف الحكم المحدد">🗑</button>
+            </div>
+            <small class="error" id="appealJudgmentError"></small>
+          </div>
+          <div class="field">
+            <label for="administrativeJudgmentFile">مرفق الحكم الإداري</label>
+            <input id="administrativeJudgmentFile" type="file" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx">
+            <small class="file-note">الحد الأقصى 2 ميجابايت.</small>
+          </div>
+          <div class="field">
+            <label for="appealJudgmentFile">مرفق حكم الاستئناف</label>
+            <input id="appealJudgmentFile" type="file" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx">
+            <small class="file-note">الحد الأقصى 2 ميجابايت.</small>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="secondary-btn close-finish-appeal" type="button">إلغاء</button>
+          <button class="primary-btn" type="submit"><span>⇧</span> إنهاء وترحيل إلى الأحكام القضائية</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast" id="departmentToast"></div>
+  <script src="shared.js"></script>
+  <script src="appeals.js"></script>
+</body>
+</html>

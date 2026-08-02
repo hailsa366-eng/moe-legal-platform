@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06376d">
+  <title>لوحة متابعة الدعاوى | منصة الممثلين القانونيين</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="users.css">
+  <link rel="stylesheet" href="admin-dashboard.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div>
+          <strong>وزارة التعليم</strong>
+          <small>منصة الممثلين القانونيين</small>
+        </div>
+      </div>
+
+      <nav class="side-nav">
+        <a href="admin-dashboard.html" class="nav-item active">
+          <span class="nav-icon">⌂</span>
+          <span>لوحة المتابعة</span>
+        </a>
+        <a href="#usersSection" class="nav-item">
+          <span class="nav-icon">♙</span>
+          <span>إدارة المستخدمين</span>
+        </a>
+        <a href="#departmentsSection" class="nav-item">
+          <span class="nav-icon">▦</span>
+          <span>مؤشرات الإدارات</span>
+        </a>
+        <a href="#casesSection" class="nav-item">
+          <span class="nav-icon">▤</span>
+          <span>سجل الدعاوى</span>
+        </a>
+      </nav>
+
+      <a class="logout" href="index.html">تسجيل الخروج</a>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">لوحة المسؤول</p>
+          <h1>متابعة الدعاوى القضائية</h1>
+          <p class="subtitle">متابعة مركزية للدعاوى القائمة والمنتهية التي يسجلها ممثلو الإدارات.</p>
+        </div>
+
+        <div class="admin-actions">
+          <button type="button" class="refresh-btn" id="refreshDashboardBtn">↻ تحديث البيانات</button>
+          <div class="profile">
+            <div class="profile-avatar">م</div>
+            <div>
+              <strong>مدير النظام</strong>
+              <small id="lastUpdatedText">صلاحية متابعة شاملة</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="stats-grid" aria-label="مؤشرات الدعاوى">
+        <article class="stat-card">
+          <span class="stat-icon">▤</span>
+          <div>
+            <small>إجمالي الدعاوى</small>
+            <strong id="totalCases">0</strong>
+            <span class="stat-note">جميع الإدارات</span>
+          </div>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon pending">◷</span>
+          <div>
+            <small>الدعاوى القائمة</small>
+            <strong id="pendingCases">0</strong>
+            <span class="stat-note" id="pendingRate">0% من الإجمالي</span>
+          </div>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon finished">✓</span>
+          <div>
+            <small>الدعاوى المنتهية</small>
+            <strong id="finishedCases">0</strong>
+            <span class="stat-note" id="finishedRate">0% من الإجمالي</span>
+          </div>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon appeal">⇧</span>
+          <div>
+            <small>دعاوى الاستئناف</small>
+            <strong id="appealCases">0</strong>
+            <span class="stat-note">منظورة ومنتهية</span>
+          </div>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon judgment">▧</span>
+          <div>
+            <small>الأحكام القضائية</small>
+            <strong id="judgmentCases">0</strong>
+            <span class="stat-note">مرحلة للأحكام</span>
+          </div>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon departments">▦</span>
+          <div>
+            <small>الإدارات النشطة</small>
+            <strong id="activeDepartments">0</strong>
+            <span class="stat-note">لديها دعاوى مسجلة</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="analytics-grid">
+        <article class="panel progress-panel">
+          <div class="panel-header compact">
+            <div>
+              <h2>توزيع حالات الدعاوى</h2>
+              <p>نسبة الدعاوى القائمة مقابل المنتهية.</p>
+            </div>
+          </div>
+          <div class="progress-content">
+            <div class="donut" id="casesDonut" aria-label="مخطط حالات الدعاوى">
+              <div class="donut-center">
+                <strong id="donutTotal">0</strong>
+                <small>دعوى</small>
+              </div>
+            </div>
+            <div class="legend">
+              <div><span class="legend-dot pending-dot"></span><b>القائمة</b><strong id="legendPending">0</strong></div>
+              <div><span class="legend-dot finished-dot"></span><b>المنتهية</b><strong id="legendFinished">0</strong></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel alerts-panel">
+          <div class="panel-header compact">
+            <div>
+              <h2>تنبيهات المتابعة</h2>
+              <p>مؤشرات تحتاج إلى انتباه المسؤول.</p>
+            </div>
+          </div>
+          <div class="alerts-list" id="alertsList"></div>
+        </article>
+      </section>
+
+      <section class="panel" id="departmentsSection">
+        <div class="panel-header">
+          <div>
+            <h2>مؤشرات الإدارات</h2>
+            <p>مقارنة عدد الدعاوى القائمة والمنتهية والاستئنافية لكل إدارة.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th>الإدارة</th>
+                <th>إجمالي الدعاوى</th>
+                <th>القائمة</th>
+                <th>المنتهية</th>
+                <th>الاستئناف</th>
+                <th>الأحكام</th>
+                <th>نسبة الإنجاز</th>
+              </tr>
+            </thead>
+            <tbody id="departmentsTableBody"></tbody>
+          </table>
+          <div class="empty-state" id="departmentsEmpty" hidden>
+            <div class="empty-icon">▦</div>
+            <h3>لا توجد بيانات إدارات</h3>
+            <p>ستظهر المؤشرات بعد تسجيل الممثلين للدعاوى.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="admin-users-section" id="usersSection">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">إدارة النظام</p>
+            <h2>إدارة المستخدمين</h2>
+            <p>إضافة وتعديل وحذف حسابات الممثلين القانونيين من داخل لوحة المسؤول.</p>
+          </div>
+        </div>
+
+        <section class="user-stats-grid">
+          <article class="stat-card">
+            <span class="stat-icon">♙</span>
+            <div>
+              <small>إجمالي المستخدمين</small>
+              <strong id="totalUsers">0</strong>
+              <span class="stat-note">الحسابات المسجلة</span>
+            </div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-icon finished">✓</span>
+            <div>
+              <small>المستخدمون النشطون</small>
+              <strong id="activeUsers">0</strong>
+              <span class="stat-note">حسابات مفعلة</span>
+            </div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-icon departments">▦</span>
+            <div>
+              <small>عدد الإدارات</small>
+              <strong id="departmentsCount">0</strong>
+              <span class="stat-note">إدارات مرتبطة بالمستخدمين</span>
+            </div>
+          </article>
+        </section>
+
+        <section class="panel users-management-panel">
+          <div class="panel-header">
+            <div>
+              <h2>قائمة المستخدمين</h2>
+              <p>عرض حسابات الممثلين القانونيين وإدارتها.</p>
+            </div>
+            <button class="primary-btn" id="openAddModal" type="button">
+              <span>＋</span>
+              إضافة مستخدم جديد
+            </button>
+          </div>
+
+          <div class="users-toolbar">
+            <div class="search-box users-search-box">
+              <span>⌕</span>
+              <input type="search" id="searchInput" placeholder="البحث بالاسم أو رقم الهوية أو الإدارة">
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="users-table">
+              <thead>
+                <tr>
+                  <th>الرقم التسلسلي</th>
+                  <th>اسم القانوني</th>
+                  <th>رقم الهوية</th>
+                  <th>البريد الإلكتروني</th>
+                  <th>الإدارة التابعة</th>
+                  <th>اسم المستخدم</th>
+                  <th>كلمة المرور</th>
+                  <th>الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody"></tbody>
+            </table>
+
+            <div class="empty-state" id="emptyState" hidden>
+              <div class="empty-icon">♙</div>
+              <h3>لا يوجد مستخدمون</h3>
+              <p>ابدأ بإضافة أول مستخدم جديد إلى النظام.</p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="panel cases-panel" id="casesSection">
+        <div class="panel-header cases-header">
+          <div>
+            <h2>سجل الدعاوى الموحد</h2>
+            <p>عرض جميع الدعاوى المسجلة من ممثلي الإدارات مع أدوات الفرز والبحث.</p>
+          </div>
+          <button class="export-btn" id="exportCsvBtn" type="button">⬇ تصدير CSV</button>
+        </div>
+
+        <div class="filters">
+          <div class="search-box">
+            <span>⌕</span>
+            <input id="caseSearchInput" type="search" placeholder="البحث باسم المدعي أو رقم الدعوى أو اسم الممثل">
+          </div>
+          <select id="departmentFilter">
+            <option value="">جميع الإدارات</option>
+          </select>
+          <select id="statusFilter">
+            <option value="">جميع الحالات</option>
+            <option value="منظورة">القائمة</option>
+            <option value="منتهية">المنتهية</option>
+          </select>
+          <select id="levelFilter">
+            <option value="">جميع المراحل</option>
+            <option value="إدارية">الدعاوى الإدارية</option>
+            <option value="استئناف">دعاوى الاستئناف</option>
+          </select>
+          <button type="button" class="clear-btn" id="clearFilters">مسح الفلاتر</button>
+        </div>
+
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="all" type="button">جميع الدعاوى <span id="allTabCount">0</span></button>
+          <button class="tab" data-tab="pending" type="button">القائمة <span id="pendingTabCount">0</span></button>
+          <button class="tab" data-tab="finished" type="button">المنتهية <span id="finishedTabCount">0</span></button>
+        </div>
+
+        <div class="results-meta" id="resultsMeta"></div>
+
+        <div class="table-wrap">
+          <table class="cases-table">
+            <thead>
+              <tr>
+                <th>م</th>
+                <th>الإدارة</th>
+                <th>المرحلة</th>
+                <th>اسم المدعي</th>
+                <th>رقم الدعوى</th>
+                <th>صفة المدعي</th>
+                <th>طلب المدعي</th>
+                <th>المحكمة</th>
+                <th>الحالة</th>
+                <th>الحكم</th>
+                <th>اسم الممثل</th>
+              </tr>
+            </thead>
+            <tbody id="adminCasesTableBody"></tbody>
+          </table>
+          <div class="empty-state" id="casesEmpty" hidden>
+            <div class="empty-icon">▤</div>
+            <h3>لا توجد دعاوى مطابقة</h3>
+            <p>غيّر معايير البحث أو انتظر تسجيل دعاوى جديدة.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+
+  <div class="modal-backdrop" id="userModal" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <header class="modal-header">
+        <div>
+          <p class="eyebrow">إدارة الحسابات</p>
+          <h2 id="modalTitle">إضافة مستخدم جديد</h2>
+        </div>
+        <button class="icon-btn close-modal" type="button" aria-label="إغلاق">×</button>
+      </header>
+
+      <form id="userForm" novalidate>
+        <input type="hidden" id="editingId">
+        <div class="form-grid">
+          <div class="field full">
+            <label for="fullName">الاسم <span>*</span></label>
+            <input id="fullName" type="text" placeholder="أدخل اسم الممثل القانوني" required>
+            <small class="error" data-error-for="fullName"></small>
+          </div>
+
+          <div class="field">
+            <label for="nationalId">رقم الهوية <span>*</span></label>
+            <input id="nationalId" type="text" inputmode="numeric" maxlength="10" placeholder="10 أرقام" required>
+            <small class="error" data-error-for="nationalId"></small>
+          </div>
+
+          <div class="field">
+            <label for="email">البريد الإلكتروني <span>*</span></label>
+            <input id="email" type="email" placeholder="example@moe.gov.sa" required>
+            <small class="error" data-error-for="email"></small>
+          </div>
+
+          <div class="field full">
+            <label for="department">الإدارة التابعة <span>*</span></label>
+            <div class="department-control">
+              <select id="department" required><option value="">اختر الإدارة</option></select>
+              <button type="button" class="department-btn add-department-btn" id="openDepartmentModal" title="إضافة إدارة">＋</button>
+              <button type="button" class="department-btn delete-department-btn" id="deleteDepartmentBtn" title="حذف الإدارة">🗑</button>
+            </div>
+            <small class="error" data-error-for="department"></small>
+          </div>
+
+          <div class="field full">
+            <label for="userPassword">كلمة المرور المؤقتة <span>*</span></label>
+            <div class="password-wrap">
+              <input id="userPassword" type="password" placeholder="6 أحرف على الأقل" minlength="6" required>
+              <button type="button" class="show-password" aria-label="إظهار كلمة المرور">◉</button>
+            </div>
+            <small class="field-help">اسم المستخدم يُنشأ تلقائيًا برقم الهوية، ويُطلب تغيير كلمة المرور عند أول دخول.</small>
+            <small class="error" data-error-for="userPassword"></small>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="secondary-btn close-modal" type="button">إلغاء</button>
+          <button class="primary-btn" type="submit" id="saveUserBtn"><span>＋</span> إضافة</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="deleteModal" hidden>
+    <section class="modal confirm-modal" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+      <div class="delete-symbol">!</div>
+      <h2 id="deleteTitle">تأكيد حذف المستخدم</h2>
+      <p>سيتم حذف الحساب من الجدول نهائيًا. هل تريد المتابعة؟</p>
+      <div class="modal-actions centered">
+        <button class="secondary-btn" type="button" id="cancelDelete">إلغاء</button>
+        <button class="danger-btn" type="button" id="confirmDelete">حذف المستخدم</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="departmentModal" hidden>
+    <section class="modal small-modal" role="dialog" aria-modal="true" aria-labelledby="departmentModalTitle">
+      <header class="modal-header">
+        <div>
+          <p class="eyebrow">إدارة القوائم</p>
+          <h2 id="departmentModalTitle">إضافة إدارة جديدة</h2>
+        </div>
+        <button class="icon-btn close-department-modal" type="button" aria-label="إغلاق">×</button>
+      </header>
+
+      <form id="departmentForm">
+        <div class="field">
+          <label for="newDepartmentName">اسم الإدارة <span>*</span></label>
+          <input id="newDepartmentName" type="text" placeholder="أدخل اسم الإدارة" required>
+          <small class="error" id="departmentNameError"></small>
+        </div>
+        <div class="modal-actions">
+          <button class="secondary-btn close-department-modal" type="button">إلغاء</button>
+          <button class="primary-btn" type="submit"><span>＋</span> إضافة الإدارة</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="toast" id="adminToast" role="status" aria-live="polite"></div>
+
+  <script src="shared.js"></script>
+  <script src="admin-dashboard.js"></script>
+  <script src="admin-users.js"></script>
+</body>
+</html>
